@@ -1,0 +1,21 @@
+//Assume you need to pull information from a CSV file for bulk AD user creation
+// Splatting will be used to ensure cleanliness of code 
+// Format of CSV is FirstName,LastName, SamAccountName
+
+$TempPass = ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force
+$UserFile = Import-Csv C:\HK\UnsortedScipts\UserFile.csv
+
+foreach ($user in $UserFile)
+{
+
+    $UserInfo = @{
+                    Name = "$($user.FirstName) $($user.LastName)"
+                    GivenName = $user.FirstName
+                    Surname = $user.Lastname
+                    SamAccountName = "$user.SamAccountName 
+                    UserPrincipalName = "$($user.FirstName) $($user.LastName)@domain.com"
+                    AccountPassword = $TempPass
+                  }
+                  
+    New-ADuser @UserInfo 
+}

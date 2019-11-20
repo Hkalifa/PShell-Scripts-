@@ -10,11 +10,12 @@ foreach ($user in $UserFile)
 
     $UserInfo = @{
                     Name = "$($user.FirstName) $($user.LastName)"
-                    GivenName = $user.FirstName
-                    Surname = $user.Lastname
+                    GivenName = "$user.FirstName"
+                    Surname = "$user.Lastname"
                     SamAccountName = "$user.SamAccountName 
                     UserPrincipalName = "$($user.FirstName) $($user.LastName)@domain.com"
-                    AccountPassword = $TempPass
+                    AccountPassword = "$TempPass"
+                    Path "cn=Users,dc=Domain,dc=Com"
                   }
                   
     New-ADuser @UserInfo 
